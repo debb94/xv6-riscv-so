@@ -1,7 +1,7 @@
 
 # Sistemas Operativos - Universidad del Valle
-Author: Daniel Bolivar
-Codigo: 2178545-2724
+- Author: Daniel Bolivar
+- Codigo: 2178545-2724
 
 ## Ejecucion de los Sistemas operativos xv6-riscv y xv6-riscv-modificado
 
