@@ -25,3 +25,9 @@ make qemu
 # docker exec -it dev-xv6-modificado bash -c "make clean && make qemu"
     
 ```
+
+## Modificaciones realizadas:
+- Como primer modificacion he realizado ajustes sobre el scheduler y estructura de procesos para implementar de manera exitosa 
+un algoritmo de planificacion FCFS (First Come First Served). De esta forma poder comparar el comportamiento de ambos sistemas
+operativos, entiendo que no es el algoritmo mas optimo, pero permite evidenciar de manera optima el funcionamiento o las diferencias
+entre ambos sistemas operativos.
