@@ -2,9 +2,7 @@
 #include "kernel/stat.h"
 #include "user/user.h"
 
-int
-main(void)
-{
+int main(void){
     char *argv1[] = { "test_scheduler", "1", 0 };
     char *argv2[] = { "test_scheduler", "2", 0 };
     char *argv3[] = { "test_scheduler", "3", 0 };
