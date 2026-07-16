@@ -82,9 +82,12 @@ usertrap(void)
     kexit(-1);
 
   // give up the CPU if this is a timer interrupt.
+  /*
+  Daniel Bolivar - Comento
   if (which_dev == 2)
     yield();
-
+  */
+  
   prepare_return();
 
   // the user page table to switch to, for trampoline.S
@@ -154,8 +157,11 @@ kerneltrap()
   }
 
   // give up the CPU if this is a timer interrupt.
+  /*
+  Daniel Bolivar - comenta - la idea es no expropiar el proceso
   if (which_dev == 2 && myproc() != 0)
     yield();
+  */
 
   // the yield() may have caused some traps to occur,
   // so restore trap registers for use by kernelvec.S's sepc instruction.
