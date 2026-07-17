@@ -170,7 +170,7 @@ QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; \
 	else echo "-s -p $(GDBPORT)"; fi)
 	
 ifndef CPUS
-CPUS := 1 # Daniel Bolivar - por defecto 3, para ver el comportamiento correcto de FCFS es mejor emular un col CPU.
+CPUS := 1 # Daniel Bolivar - por defecto 3, para ver el comportamiento correcto de FCFS es mejor emular un solo CPU.
 endif
 
 QEMUOPTS = -machine virt -bios none -kernel $K/kernel -m 128M -smp $(CPUS) -nographic
