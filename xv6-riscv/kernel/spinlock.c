@@ -91,10 +91,11 @@ holding(struct spinlock *lk)
 void
 push_off(void)
 {
+  int old = intr_get();
+
   // disable interrupts to prevent an involuntary context
   // switch while using mycpu().
-  uint64 flags = rc_sstatus(SSTATUS_SIE);
-  int old = !!(flags & SSTATUS_SIE);
+  intr_off();
 
   if (mycpu()->noff == 0)
     mycpu()->intena = old;
