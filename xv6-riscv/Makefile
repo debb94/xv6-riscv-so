@@ -147,7 +147,9 @@ UPROGS=\
 	$U/_dorphan\
 	$U/_sync\
 	$U/_test_scheduler\
-	$U/_test_launch
+	$U/_test_launch\
+	$U/_test_memory\
+	$U/_trace_memory\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
