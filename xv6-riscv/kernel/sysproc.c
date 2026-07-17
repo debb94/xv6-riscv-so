@@ -107,3 +107,14 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+// Daniel Bolivar - Debug - gestion de memoria
+extern int trace_memory;
+
+uint64 sys_trace_memory(void) {
+  int value;
+  argint(0, &value);
+  trace_memory = value;
+
+  return 0;
+}

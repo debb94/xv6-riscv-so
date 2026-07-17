@@ -21,3 +21,5 @@
 #define SYS_mkdir  20
 #define SYS_close  21
 #define SYS_sync   22
+// Daniel Bolivar - syscall para traza
+#define SYS_trace_memory 23

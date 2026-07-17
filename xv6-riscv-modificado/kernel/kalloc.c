@@ -14,6 +14,8 @@ void freerange(void *pa_start, void *pa_end);
 extern char end[]; // first address after kernel.
                    // defined by kernel.ld.
 
+int trace_memory = 0;
+
 struct run {
   struct run *next;
 };
@@ -21,6 +23,7 @@ struct run {
 struct {
   struct spinlock lock;
   struct run *freelist;
+  struct run *tail; // Daniel Bolivar
 } kmem;
 
 void
@@ -37,6 +40,16 @@ freerange(void *pa_start, void *pa_end)
   p = (char *)PGROUNDUP((uint64)pa_start);
   for (; p + PGSIZE <= (char *)pa_end; p += PGSIZE)
     kfree(p);
+
+  // Daniel Bolivar - apuntamos tail al ultimo nodo.
+  if(kmem.freelist){
+    struct run *r = kmem.freelist;
+
+    while(r->next)
+      r = r->next;
+
+    kmem.tail = r;
+  }
 }
 
 // Free the page of physical memory pointed at by pa,
@@ -56,10 +69,35 @@ kfree(void *pa)
 
   r = (struct run *)pa;
 
+  /* Daniel Bolivar 
+    - modificamos la forma en como se liberan las paginas y se asignan para FIFO
+    - En vez de agregar al inicio de la lista como LIFO, agregamos al final.
+  */
+  r->next = 0;
+
+  acquire(&kmem.lock);
+
+  if (kmem.freelist == 0){
+    kmem.freelist = r;
+  }else{
+    kmem.tail->next = r;
+  }
+  kmem.tail = r;
+
+  release(&kmem.lock);
+
+  if (trace_memory) {
+    printk("[FREE ] %p\n", pa);
+  }
+ 
+  /* antes:
+
   acquire(&kmem.lock);
   r->next = kmem.freelist;
-  kmem.freelist = r;
+  kmem.freelist = r; 
   release(&kmem.lock);
+  
+  */
 }
 
 // Allocate one 4096-byte page of physical memory.
@@ -72,8 +110,15 @@ kalloc(void)
 
   acquire(&kmem.lock);
   r = kmem.freelist;
-  if (r)
+  if (r){
     kmem.freelist = r->next;
+
+    // imprimir solo para tests
+    if (trace_memory && r) {
+      printk("[ALLOC] %p\n", r);
+    }
+
+  }
   release(&kmem.lock);
 
   if (r)
