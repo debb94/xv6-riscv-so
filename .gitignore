@@ -4,3 +4,7 @@ xv6-riscv-modificado/*/*.o
 xv6-riscv-modificado/*.o
 xv6-riscv-modificado/*/*.d
 xv6-riscv-modificado/*.d
+xv6-riscv/*/*.o
+xv6-riscv/*.o
+xv6-riscv/*/*.d
+xv6-riscv/*.d
